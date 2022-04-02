@@ -1,17 +1,36 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {createRoot} from 'react-dom/client';
+import {BrowserRouter} from "react-router-dom";
+import './index.css';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+import {initializeApp} from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+import {getFirestore} from "firebase/firestore";
+import {getAuth} from "firebase/auth";
+import {createContext} from "react";
+
+// Initialize Firebase
+const app = initializeApp({
+	apiKey: "AIzaSyBqpqTTLZw2jWpIH8GS6dRF4nudkhc5UF4",
+	authDomain: "smallchatreact.firebaseapp.com",
+	projectId: "smallchatreact",
+	storageBucket: "smallchatreact.appspot.com",
+	messagingSenderId: "799784776943",
+	appId: "1:799784776943:web:ae89b7547a6baf9185d71a",
+	measurementId: "G-LFRRRCSD2B"
+});
+// const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
+export const Context = createContext(null);
+
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render(
+	<BrowserRouter>
+		<Context.Provider value={{app, auth, firestore}}>
+		<   App/>
+		</Context.Provider>
+	</BrowserRouter>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
